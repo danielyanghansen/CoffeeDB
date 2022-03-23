@@ -25,6 +25,7 @@ def main():
         print("Complete")
     con.close()
 
+    print("Adding new data to the database ...")
 
     # Brukere
     KaffeDB.create_user("Daniel", "Hansen", "danielyh@stud.ntnu.no", "passord123", "Yang") #PK 1
@@ -140,12 +141,18 @@ def main():
     KaffeDB.create_coffee("Kaffe best", "Smaker best", "19 USD", 2, 4)
     KaffeDB.create_coffee("DiggDigg Kaffe", "Smaker digg", "24.99 USD", 3, 5) #PK 3
     KaffeDB.create_coffee("Vinterkaffe 2022", "En velsmakende og kompleks kaffe for mørketiden", "600.0 NOK", 4, 6)
+    KaffeDB.create_coffee("Flower Power", "A coffee with an amazing floral smell, while also tasting like fantastic coffee", "20.00 GBP", 4, 2)
+    KaffeDB.create_coffee("Rwandan Gold", "A taste of gold from Rwanda. Now with washed beans", "61919.1 USD", 6, 3)
+    KaffeDB.create_coffee("Rwandan Gold", "A taste of gold from Rwanda. Dried beans with the utmost care", "61919.1 USD", 7, 1)
+    KaffeDB.create_coffee("Suavemente coffee", "Suavemente, bésame Que quiero sentir tus labios Besándome otra vez", "1500 USD", 9, 3)
+
 
     # Kaffesmaking
     KaffeDB.create_coffee_tasting("Å digg", 9, "2022.03.19", 2, 1) #PK 1
     KaffeDB.create_coffee_tasting("Litt for bitter", 5, "2022.02.28", 1, 3)
     KaffeDB.create_coffee_tasting("Veldig god kaffe", 8, "2022.03.15", 2, 3)
     KaffeDB.create_coffee_tasting("Smakte jord", 1, "2022.01.12", 4, 2) #PK 4
+    KaffeDB.create_coffee_tasting("Det var kanskje en floral lukt, men smakte jord!", 2, "2022.03.15", 2, 5)
 
 if __name__ == "__main__":
     print("Starting setup...\n")

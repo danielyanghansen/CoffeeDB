@@ -1,5 +1,3 @@
-
-from sys import displayhook
 import KaffeDB
 import sqlite3
 import time
@@ -120,7 +118,33 @@ def userStory4():
     enten av brukere eller brennerier. Brukeren skal få tilbake en liste med
     brennerinavn og kaffenavn.
     """
-    # TODO
+
+    con = sqlite3.connect("./KaffeDB.db")
+    cursor = con.cursor()
+
+    query = """
+            SELECT Kaffe.Navn AS KaffeNavn, Brenneri.BrenneriNavn
+            FROM Kaffesmaking
+            INNER JOIN Kaffe ON Kaffesmaking.FK_KaffeID = Kaffe.PK_KaffeID
+            INNER JOIN Brenning ON Kaffe.FK_Kaffebrenning = Brenning.PK_Kaffebrenning
+            INNER JOIN Brenneri ON Brenning.FK_BrenneriID = Brenneri.PK_BrenneriID
+            WHERE 
+                Kaffesmaking.Brukerens_Smaksnotater LIKE '%floral%' OR
+                Kaffe.Beskrivelse LIKE '%floral'
+            """
+    print("\nQuery:" + query)
+
+    print("""These are all the names of the coffees and 
+roasteries where either the description of a coffee or a 
+tasting note of a coffee describes it as 'floral':""")
+
+    cursor.execute(query)
+
+    coffees_with_matching_note_or_desc = cursor.fetchall()
+    for coffee in coffees_with_matching_note_or_desc:
+        print(coffee)
+
+    con.close()
 
 def userStory5():
     print("User story 5:")
@@ -130,7 +154,38 @@ def userStory5():
     og Colombia som ikke er vaskede. Systemet returnerer en liste over
     brennerinavn og kaffenavn.
     """
-    # TODO
+
+    con = sqlite3.connect("./KaffeDB.db")
+    cursor = con.cursor()
+
+    query = """
+                SELECT Brenneri.BrenneriNavn, Kaffe.Navn AS KaffeNavn
+                FROM Kaffe
+                INNER JOIN Brenning ON Kaffe.FK_Kaffebrenning = Brenning.PK_Kaffebrenning
+                INNER JOIN Brenneri ON Brenning.FK_BrenneriID = Brenneri.PK_BrenneriID
+                INNER JOIN Kaffeparti ON Kaffe.FK_Kaffeparti = Kaffeparti.PK_Kaffeparti
+                INNER JOIN Kaffegård ON Kaffeparti.FK_GårdID = Kaffegård.PK_GårdID
+                INNER JOIN Lokasjon ON Kaffegård.FK_Lokasjon = Lokasjon.PK_Lokasjon
+                WHERE
+                    Kaffeparti.FK_Foredlingsmetode != 'Vasket' AND
+                    (Lokasjon.Land = 'Rwanda' OR 
+                    Lokasjon.Land = 'Colombia')
+            """
+
+    print("\nQuery:" + query)
+
+    print("""
+These are all the roasteries and coffees where the 
+farm is either from Rwanda or Colombia while the 
+coffee also wasn't processed using the washing method:""")
+
+    cursor.execute(query)
+
+    coffeeFromColombiaRwandaNoWashed = cursor.fetchall()
+    for coffee in coffeeFromColombiaRwandaNoWashed:
+        print(coffee)
+
+    con.close()
 
 def main():
     UserState = KaffeDB.User(0, "", "", "", "")
@@ -142,8 +197,23 @@ def main():
     time.sleep(0.5)
     KaffeDB.login("danielyh@stud.ntnu.no", "passord123", UserState)
     
-    userStory1(UserState)
-    
+    #userStory1(UserState)
+
+    time.sleep(0.2)
+
+    #userStory2()
+
+    time.sleep(0.2)
+
+    #userStory3()    
+
+    time.sleep(0.2)
+
+    userStory4()    
+
+    time.sleep(0.2)
+
+    userStory5()    
     
     
     
