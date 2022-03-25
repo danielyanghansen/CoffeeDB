@@ -2,6 +2,7 @@ from multiprocessing.dummy.connection import Connection
 
 #from tokenize import str
 import sqlite3
+from time import sleep
 
 
 class User:
@@ -34,6 +35,79 @@ def close_and_commit_connection(con :Connection):
     if (con):
         con.commit()
         con.close()
+
+def welcome():
+    art = """
+                                  ░░              ░░              ░░                                
+                              ░░              ░░              ░░                                
+                                ░░              ░░              ░░                              
+                                ░░              ░░              ░░                              
+                              ░░              ░░              ░░                                
+                              ░░              ░░              ░░                                
+                            ░░              ░░              ░░                                  
+                            ░░              ░░              ░░                                  
+                              ░░              ░░              ░░                                
+                              ░░              ░░              ░░                                
+                                ░░              ░░              ░░                              
+                                ░░              ░░              ░░                              
+                              ░░              ░░              ░░                                
+                              ░░              ░░              ░░                                
+                                                                                                
+                                    ▓▓██████████████████████                                    
+                            ████████                        ████████                            
+                        ████        ████████████████████████        ████                        
+                      ██░░    ██████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒██▓▓██  ░░░░██                      
+                    ██    ████▒▒▓▓▓▓▓▓▓▓░░░░░░▓▓▓▓░░░░░░▓▓▓▓▒▒▓▓▓▓████    ██                    
+                  ██    ██▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓░░░░▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▒▒▓▓██    ██                  
+                  ██  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▒▒▓▓▓▓  ██  ██▓▓▓▓▓▓██      
+                  ██  ██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒██  ████          ██    
+                  ██    ██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██    ██              ██  
+                    ██  ░░████▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓████░░  ██░░    ████      ██  
+                    ██        ██████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██████        ██  ████    ██    ██  
+                    ██              ████████████████████████              ████        ██    ██  
+                    ██                ░░  ░░░░░░░░░░░░░░░░░░              ██          ██    ██  
+                ██████                                                    ██████    ██      ██  
+            ████    ██                                                    ██    ██  ██    ██    
+        ░░██▒▒░░    ▒▒▓▓                                                ▓▓▒▒    ░░██▒▒    ██    
+      ▓▓  ░░          ██                                                ██  ██████      ▓▓      
+    ██                ██                                                ████        ████  ██    
+  ██                  ░░██                                            ██░░░░    ████░░░░  ░░██  
+  ██                ██████                                            ██████████░░░░        ██  
+██                ██▒▒░░▒▒██                                        ██▒▒▒▒██                  ██
+██              ██▒▒██▒▒▒▒██                                        ██▒▒▒▒▒▒██                ██
+██              ██░░▓▓████▒▒▓▓                                    ▓▓▒▒██░░▒▒██                ██
+  ██            ██▒▒██▓▓░░▒▒▒▒██                                ██▒▒░░▒▒████                ██  
+  ██              ██░░██▒▒████▒▒████                        ████▒▒██▒▒██▒▒██                ██  
+    ██            ██▒▒▒▒██▓▓░░▒▒░░▒▒██▓▓▓▓            ▓▓▓▓██▒▒██▒▒░░██▒▒░░██              ██    
+      ██            ██████▒▒▒▒▒▒██████▒▒▒▒████████████▒▒██▒▒▒▒▓▓██▒▒▒▒████░░            ██      
+        ██                ██████░░▒▒██░░▒▒██▒▒▒▒░░▒▒██▒▒▒▒██░░▒▒▒▒████                ██        
+          ████                ██▒▒▒▒▓▓▒▒▒▒██░░▒▒████▒▒░░▒▒▒▒██████                ████          
+          ░░  ████              ████  ████░░████░░░░████████    ░░            ████              
+                  ████                                                    ████                  
+                      ██▓▓▓▓██                                    ▓▓▓▓▓▓██                      
+                              ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                              
+
+    """
+    print(art)
+    sleep(1)
+    
+    text = """
+ __          __  _                            _        
+ \ \        / / | |                          | |       
+  \ \  /\  / /__| | ___ ___  _ __ ___   ___  | |_ ___  
+   \ \/  \/ / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \ 
+    \  /\  /  __/ | (_| (_) | | | | | |  __/ | || (_) |
+  _  \/  \/ \___|_|\___\___/|_|_|_| |_|\___|  \__\___/ 
+ | |/ /     / _|/ _|   |  __ \|  _ \                   
+ | ' / __ _| |_| |_ ___| |  | | |_) |                  
+ |  < / _` |  _|  _/ _ \ |  | |  _ <                   
+ | . \ (_| | | | ||  __/ |__| | |_) |                  
+ |_|\_\__,_|_| |_| \___|_____/|____/                   
+                                                       
+                                                       
+    """
+    print(text)
+    sleep(1)
 
 #con.execute("...") to get stuff
 #con.close after
@@ -185,10 +259,10 @@ def bind_beans_to_batch(FK_Batch, list_FK_bean):
     close_and_commit_connection(con)
     return True
 
-def create_coffee(name:str, description : str, kg_price: str, FK_CoffeeBatchID : int, FK_Coffeeroasting: int):
+def create_coffee(name:str, description : str, kg_price: float, kg_price_currency:str, FK_CoffeeBatchID : int , FK_Coffeeroasting: int):
     con, cursor = open_connection()
-    values = [name, description, kg_price, FK_CoffeeBatchID, FK_Coffeeroasting]
-    sql = """ INSERT INTO Kaffe (Navn, Beskrivelse, Kilopris, FK_KaffeParti, FK_Kaffebrenning) VALUES (?, ?, ?, ?, ?) """
+    values = [name, description, kg_price, kg_price_currency, FK_CoffeeBatchID, FK_Coffeeroasting]
+    sql = """ INSERT INTO Kaffe (Navn, Beskrivelse, Kilopris, Kilopris_Valuta, FK_KaffeParti, FK_Kaffebrenning) VALUES (?, ?, ?, ?, ?, ?) """
     cursor.execute(sql,values)
     close_and_commit_connection(con)
     

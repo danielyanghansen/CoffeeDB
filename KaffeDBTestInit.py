@@ -137,14 +137,14 @@ def main():
     KaffeDB.bind_beans_to_batch(4, [1]) #Only Bourbon Arabica is used
 
     # Kaffe ☕☕
-    KaffeDB.create_coffee("NamNam Kaffe", "Smaker Nam", "15 USD", 1, 1) #PK 1
-    KaffeDB.create_coffee("Kaffe best", "Smaker best", "19 USD", 2, 4)
-    KaffeDB.create_coffee("DiggDigg Kaffe", "Smaker digg", "24.99 USD", 3, 5) #PK 3
-    KaffeDB.create_coffee("Vinterkaffe 2022", "En velsmakende og kompleks kaffe for mørketiden", "600.0 NOK", 4, 6)
-    KaffeDB.create_coffee("Flower Power", "A coffee with an amazing floral smell, while also tasting like fantastic coffee", "20.00 GBP", 4, 2)
-    KaffeDB.create_coffee("Rwandan Gold", "A taste of gold from Rwanda. Now with washed beans", "61919.1 USD", 6, 3)
-    KaffeDB.create_coffee("Rwandan Gold", "A taste of gold from Rwanda. Dried beans with the utmost care", "61919.1 USD", 7, 1)
-    KaffeDB.create_coffee("Suavemente coffee", "Suavemente, bésame Que quiero sentir tus labios Besándome otra vez", "1500 USD", 9, 3)
+    KaffeDB.create_coffee("NamNam Kaffe", "Smaker Nam", 15.0, "USD", 1, 1) #PK 1
+    KaffeDB.create_coffee("Kaffe best", "Smaker best", 19.0, "USD", 2, 4)
+    KaffeDB.create_coffee("DiggDigg Kaffe", "Smaker digg", 24.99, "USD", 3, 5) #PK 3
+    KaffeDB.create_coffee("Vinterkaffe 2022", "En velsmakende og kompleks kaffe for mørketiden", 600.0 ,"NOK", 4, 6)
+    KaffeDB.create_coffee("Flower Power", "A coffee with an amazing floral smell, while also tasting like fantastic coffee", 20.0 ,"GBP", 4, 2)
+    KaffeDB.create_coffee("Rwandan Gold", "A taste of gold from Rwanda. Now with washed beans", 61919.1, "USD", 6, 3)
+    KaffeDB.create_coffee("Rwandan Gold", "A taste of gold from Rwanda. Dried beans with the utmost care", 61919.1, "USD", 7, 1)
+    KaffeDB.create_coffee("Suavemente coffee", "Suavemente, bésame Que quiero sentir tus labios Besándome otra vez", 1500.0, "USD", 9, 3)
 
 
     # Kaffesmaking

@@ -68,7 +68,8 @@ CREATE TABLE IF NOT EXISTS "Kaffe" (
 	"PK_KaffeID"	INTEGER NOT NULL UNIQUE,
 	"Navn"	TEXT NOT NULL,
 	"Beskrivelse"	TEXT, /*Tillater at det er tomme beskrivelser*/
-	"Kilopris"	TEXT NOT NULL,
+	"Kilopris"	REAL NOT NULL,
+	"Kilopris_Valuta"	TEXT NOT NULL,
 	"FK_KaffeParti"	INTEGER NOT NULL,
 	"FK_Kaffebrenning"	INTEGER NOT NULL,
 	FOREIGN KEY("FK_Kaffebrenning") REFERENCES "Brenning"("PK_Kaffebrenning"),

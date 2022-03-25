@@ -41,14 +41,46 @@ def userStory1(UserState: KaffeDB.User):
     
     con = sqlite3.connect("./KaffeDB.db")
     cursor = con.cursor()
+
+    sql = """
+    SELECT
+        Kaffe.PK_KaffeID,
+        Kaffe.Navn,
+        Kaffe.Beskrivelse,
+        Kaffe.Kilopris,
+        Kaffe.Kilopris_Valuta,
+        Brenning.Brenningsgrad,
+        Brenning.Brenningsdato,
+        Brenneri.BrenneriNavn,
+        Kaffeparti.Betalt_Kg_Pris_Gård_USD,
+        Kaffeparti.Innhøstingsår,
+        Kaffeparti.FK_Foredlingsmetode,
+        Kaffegård.Navn as "Gårdsnavn",
+        Kaffegård.MOH,
+        Lokasjon.Region,
+        Lokasjon.Land,
+        Kaffebønne.Variant || ' ' || Kaffebønne.Artsnavn AS Første_Kaffebønne,
+        COUNT(KaffepartiJunction.FK_Kaffebønne) as "Antall_Bønnetyper"
+    FROM
+        Kaffe
+        INNER JOIN Brenning ON Kaffe.FK_Kaffebrenning = Brenning.PK_Kaffebrenning
+        INNER JOIN Brenneri ON Brenning.FK_BrenneriID = Brenneri.PK_BrenneriID
+        INNER JOIN Kaffeparti on Kaffe.FK_KaffeParti = Kaffeparti.PK_KaffeParti
+        INNER JOIN Kaffegård ON Kaffeparti.FK_GårdID = Kaffegård.PK_GårdID
+        INNER JOIN Lokasjon ON Kaffegård.FK_Lokasjon = Lokasjon.PK_Lokasjon
+        INNER JOIN KaffepartiJunction ON Kaffeparti.PK_KaffeParti = KaffepartiJunction.FK_KaffeParti 
+        INNER JOIN Kaffebønne ON KaffepartiJunction.FK_Kaffebønne = Kaffebønne.PK_Kaffebønne
+    GROUP BY Kaffe.PK_KaffeID
+    """
     
-    cursor.execute("""SELECT * FROM V_Full_Coffee_Description""")
+    cursor.execute(sql)
     res = cursor.fetchall()
     for field in res:
         print(field)
         
     print("""
-          Trying again with restrictions: 
+        Assuming that the user has identified the correct coffee to select
+        Trying again with restrictions: 
             Navn: 'Vinterkaffe 2022'
             BrenneriNavn: 'Trondheims-brenneriet Jacobsen & Svart'
             Region: 'Santa Ana'
@@ -58,18 +90,47 @@ def userStory1(UserState: KaffeDB.User):
         Which should be sufficient 
             
           """)
-    sql = """
-            SELECT * FROM V_Full_Coffee_Description 
-                WHERE
-                    Navn = 'Vinterkaffe 2022' AND
-                    BrenneriNavn = 'Trondheims-brenneriet Jacobsen & Svart' AND
-                    Region = 'Santa Ana' AND
-                    Land = 'El Salvador' AND
-                    Brenningsdato = '2022.01.20' AND
-                    Brenningsgrad = 'Lys'       
-            """
-    print("Running: \n", sql)
-    cursor.execute(sql)
+    sql2 = """
+    SELECT
+        Kaffe.PK_KaffeID,
+        Kaffe.Navn,
+        Kaffe.Beskrivelse,
+        Kaffe.Kilopris,
+        Kaffe.Kilopris_Valuta,
+        Brenning.Brenningsgrad,
+        Brenning.Brenningsdato,
+        Brenneri.BrenneriNavn,
+        Kaffeparti.Betalt_Kg_Pris_Gård_USD,
+        Kaffeparti.Innhøstingsår,
+        Kaffeparti.FK_Foredlingsmetode,
+        Kaffegård.Navn as "Gårdsnavn",
+        Kaffegård.MOH,
+        Lokasjon.Region,
+        Lokasjon.Land,
+        Kaffebønne.Variant || ' ' || Kaffebønne.Artsnavn AS Første_Kaffebønne,
+        COUNT(KaffepartiJunction.FK_Kaffebønne) as "Antall_Bønnetyper"
+    FROM
+        Kaffe
+        INNER JOIN Brenning ON Kaffe.FK_Kaffebrenning = Brenning.PK_Kaffebrenning
+        INNER JOIN Brenneri ON Brenning.FK_BrenneriID = Brenneri.PK_BrenneriID
+        INNER JOIN Kaffeparti on Kaffe.FK_KaffeParti = Kaffeparti.PK_KaffeParti
+        INNER JOIN Kaffegård ON Kaffeparti.FK_GårdID = Kaffegård.PK_GårdID
+        INNER JOIN Lokasjon ON Kaffegård.FK_Lokasjon = Lokasjon.PK_Lokasjon
+        INNER JOIN KaffepartiJunction ON Kaffeparti.PK_KaffeParti = KaffepartiJunction.FK_KaffeParti 
+        INNER JOIN Kaffebønne ON KaffepartiJunction.FK_Kaffebønne = Kaffebønne.PK_Kaffebønne
+
+    WHERE
+        Kaffe.Navn = 'Vinterkaffe 2022' AND
+        Brenneri.BrenneriNavn = 'Trondheims-brenneriet Jacobsen & Svart' AND
+        Lokasjon.Region = 'Santa Ana' AND
+        Lokasjon.Land = 'El Salvador' AND
+        Brenning.Brenningsdato = '2022.01.20' AND
+        Brenning.Brenningsgrad = 'Lys' 
+    GROUP BY Kaffe.PK_KaffeID 
+
+        """
+    print("Running: \n", sql2)
+    cursor.execute(sql2)
     res = cursor.fetchone()
     con.close()
     
@@ -81,8 +142,46 @@ def userStory1(UserState: KaffeDB.User):
     
     con2 = sqlite3.connect("./KaffeDB.db")
     cursor2 = con2.cursor()
+
+    sql3 = """
+    SELECT
+        Kaffesmaking.PK_Kaffesmaking,
+        Kaffesmaking.Poeng,
+        Kaffesmaking.Brukerens_Smaksnotater,
+        Kaffesmaking.Smaksdato,
+        Bruker.Epost AS Smakende_Bruker,
+        Kaffe.PK_KaffeID,
+        Kaffe.Navn,
+        Kaffe.Beskrivelse,
+        Kaffe.Kilopris,
+        Brenning.Brenningsgrad,
+        Brenning.Brenningsdato,
+        Brenneri.BrenneriNavn,
+        Kaffeparti.Betalt_Kg_Pris_Gård_USD,
+        Kaffeparti.Innhøstingsår,
+        Kaffeparti.FK_Foredlingsmetode,
+        Kaffegård.Navn as "Gårdsnavn",
+        Kaffegård.MOH,
+        Lokasjon.Region,
+        Lokasjon.Land,
+        Kaffebønne.Variant || ' ' || Kaffebønne.Artsnavn AS Første_Kaffebønne,
+        COUNT(KaffepartiJunction.FK_Kaffebønne) as "Antall_Bønnetyper"
+    FROM
+        Kaffesmaking
+        INNER JOIN Kaffe ON Kaffesmaking.FK_KaffeID = Kaffe.PK_KaffeID
+        INNER JOIN Bruker ON Kaffesmaking.FK_BrukerID = Bruker.PK_BrukerID
+        INNER JOIN Brenning ON Kaffe.FK_Kaffebrenning = Brenning.PK_Kaffebrenning
+        INNER JOIN Brenneri ON Brenning.FK_BrenneriID = Brenneri.PK_BrenneriID
+        INNER JOIN Kaffeparti on Kaffe.FK_KaffeParti = Kaffeparti.PK_KaffeParti
+        INNER JOIN Kaffegård ON Kaffeparti.FK_GårdID = Kaffegård.PK_GårdID
+        INNER JOIN Lokasjon ON Kaffegård.FK_Lokasjon = Lokasjon.PK_Lokasjon
+        INNER JOIN KaffepartiJunction ON Kaffeparti.PK_KaffeParti = KaffepartiJunction.FK_KaffeParti 
+        INNER JOIN Kaffebønne ON KaffepartiJunction.FK_Kaffebønne = Kaffebønne.PK_Kaffebønne
+    GROUP BY Kaffesmaking.PK_Kaffesmaking
+    ORDER BY Kaffesmaking.Smaksdato DESC
+    """
     
-    cursor2.execute("""SELECT * FROM V_Full_Tasting_Description ORDER BY Smaksdato Desc""")
+    cursor2.execute(sql3)
     res2 = cursor2.fetchall()
     print("Tastings:")
     for field in res2:
@@ -104,19 +203,26 @@ def userStory2():
     cursor = con.cursor()
     ##Does not work, almost there
     query = """ 
-    SELECT Bruker.Fornavn , Bruker.Etternavn, COUNT (DISTINCT (Kaffesmaking.FK_KaffeID)) as 'Antall forskjellige Kaffer'
-    FROM Kaffesmaking 
-    INNER JOIN Bruker ON Kaffesmaking.FK_BrukerID = Bruker.PK_BrukerID 
-    INNER JOIN Kaffe ON Kaffesmaking.FK_KaffeID = Kaffe.PK_KaffeID 
-    WHERE Kaffesmaking.Smaksdato LIKE '2022%' 
-    GROUP BY Kaffesmaking.FK_BrukerID 
-    ORDER BY COUNT(Kaffesmaking.FK_KaffeID) DESC;
+    SELECT 
+        Bruker.Fornavn , 
+        Bruker.Etternavn, 
+        COUNT(DISTINCT(Kaffesmaking.FK_KaffeID)) as 'Antall forskjellige Kaffer'
+    FROM 
+        Kaffesmaking
+        INNER JOIN Bruker ON Kaffesmaking.FK_BrukerID = Bruker.PK_BrukerID 
+        INNER JOIN Kaffe ON Kaffesmaking.FK_KaffeID = Kaffe.PK_KaffeID 
+    WHERE 
+        Kaffesmaking.Smaksdato LIKE '2022%' 
+    GROUP BY
+        Kaffesmaking.FK_BrukerID
+    ORDER BY
+        COUNT(Kaffesmaking.FK_KaffeID) DESC;
 
     """
     print("\nQuery:" + query)
 
     cursor.execute(query)
-    print("List over users that have tasted distinct Coffee, sorted from most to least ")
+    print("List of users that have tasted distinct Coffee, sorted from most to least ")
     userList = cursor.fetchall()
 
     for user in userList:
@@ -134,7 +240,32 @@ def userStory3():
     Listen skal inneholde brennerinavn, kaffenavn, pris og
     gjennomsnittsscore for hver kaffe.
     """
-    # TODO
+    con = sqlite3.connect("./KaffeDB.db")
+    cursor = con.cursor()
+    query = """
+    SELECT 
+        Brenneri.BrenneriNavn, 
+        Kaffe.Navn AS 'Kaffe navn', 
+        Kaffe.Kilopris, 
+        AVG(Kaffesmaking.Poeng) AS 'Gjennomsnittlig score',
+        (AVG(Kaffesmaking.Poeng)/Kaffe.Kilopris) AS 'Mest Verdi for Pengene'
+    FROM Kaffesmaking
+        INNER JOIN Kaffe ON Kaffesmaking.FK_KaffeID = Kaffe.PK_KaffeID
+        INNER JOIN Brenning ON Kaffe.FK_Kaffebrenning = Brenning.PK_Kaffebrenning
+        INNER JOIN Brenneri ON Brenning.FK_BrenneriID = Brenneri.PK_BrenneriID
+    GROUP BY (Kaffe.PK_KaffeID)
+    ORDER BY (AVG(Kaffesmaking.Poeng)/Kaffe.Kilopris) DESC;
+    """
+
+    print("\nQuery:" + query)
+
+    cursor.execute(query)
+    Coffie_sorted = cursor.fetchall()
+    print("List of roasteries, coffees, price, average score from tastings, and average score from tastings divided by the coffees price, sorted ")
+    for coffiee in Coffie_sorted:
+        print(coffiee)
+    
+    con.close()
 
 def userStory4():
     print("User story 4:")
@@ -155,7 +286,7 @@ def userStory4():
             INNER JOIN Brenneri ON Brenning.FK_BrenneriID = Brenneri.PK_BrenneriID
             WHERE 
                 Kaffesmaking.Brukerens_Smaksnotater LIKE '%floral%' OR
-                Kaffe.Beskrivelse LIKE '%floral%'
+                Kaffe.Beskrivelse LIKE '%floral%';
             """
     print("\nQuery:" + query)
 
@@ -194,7 +325,7 @@ def userStory5():
                 WHERE
                     Kaffeparti.FK_Foredlingsmetode != 'Vasket' AND
                     (Lokasjon.Land = 'Rwanda' OR 
-                    Lokasjon.Land = 'Colombia')
+                    Lokasjon.Land = 'Colombia');
             """
 
     print("\nQuery:" + query)
@@ -214,6 +345,8 @@ coffee also wasn't processed using the washing method:""")
 
 def main():
     UserState = KaffeDB.User(0, "", "", "", "")
+
+    KaffeDB.welcome()
     
     displayAllTables()
     time.sleep(1.0)
@@ -222,7 +355,7 @@ def main():
     time.sleep(0.5)
     KaffeDB.login("danielyh@stud.ntnu.no", "passord123", UserState)
     
-    #userStory1(UserState)
+    userStory1(UserState)
 
     time.sleep(0.2)
 
@@ -230,15 +363,15 @@ def main():
 
     time.sleep(0.2)
 
-    #userStory3()    
+    userStory3()    
 
     time.sleep(0.2)
 
-    #userStory4()    
+    userStory4()    
 
     time.sleep(0.2)
 
-    #userStory5()    
+    userStory5()    
     
     
     
