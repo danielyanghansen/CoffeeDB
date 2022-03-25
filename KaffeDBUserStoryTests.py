@@ -54,7 +54,7 @@ def userStory1(UserState: KaffeDB.User):
             Region: 'Santa Ana'
             Land: 'El Salvador'
             Brenningsdato: '2022.01.20'
-            Brenningsgrad: 'lys'
+            Brenningsgrad: 'Lys'
         Which should be sufficient 
             
           """)
@@ -99,6 +99,31 @@ def userStory2():
     har smakt flest unike kaffer så langt i år, sortert synkende. Listen skal
     inneholde brukernes fulle navn og antallet kaffer de har smakt.
     """
+
+    con = sqlite3.connect("./KaffeDB.db")
+    cursor = con.cursor()
+    ##Does not work, almost there
+    query = """ 
+    SELECT Bruker.Fornavn , Bruker.Etternavn, COUNT (DISTINCT (Kaffesmaking.FK_KaffeID)) as 'Antall forskjellige Kaffer'
+    FROM Kaffesmaking 
+    INNER JOIN Bruker ON Kaffesmaking.FK_BrukerID = Bruker.PK_BrukerID 
+    INNER JOIN Kaffe ON Kaffesmaking.FK_KaffeID = Kaffe.PK_KaffeID 
+    WHERE Kaffesmaking.Smaksdato LIKE '2022%' 
+    GROUP BY Kaffesmaking.FK_BrukerID 
+    ORDER BY COUNT(Kaffesmaking.FK_KaffeID) DESC;
+
+    """
+    print("\nQuery:" + query)
+
+    cursor.execute(query)
+    print("List over users that have tasted distinct Coffee, sorted from most to least ")
+    userList = cursor.fetchall()
+
+    for user in userList:
+        print(user)
+
+
+    con.close()
     # TODO
 
 def userStory3():
@@ -130,7 +155,7 @@ def userStory4():
             INNER JOIN Brenneri ON Brenning.FK_BrenneriID = Brenneri.PK_BrenneriID
             WHERE 
                 Kaffesmaking.Brukerens_Smaksnotater LIKE '%floral%' OR
-                Kaffe.Beskrivelse LIKE '%floral'
+                Kaffe.Beskrivelse LIKE '%floral%'
             """
     print("\nQuery:" + query)
 
@@ -201,7 +226,7 @@ def main():
 
     time.sleep(0.2)
 
-    #userStory2()
+    userStory2()
 
     time.sleep(0.2)
 
@@ -209,11 +234,11 @@ def main():
 
     time.sleep(0.2)
 
-    userStory4()    
+    #userStory4()    
 
     time.sleep(0.2)
 
-    userStory5()    
+    #userStory5()    
     
     
     
