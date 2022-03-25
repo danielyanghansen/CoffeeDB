@@ -3,23 +3,26 @@
 # Delinnlevering 2: KaffeDB implementert i Python med bruk av sqlite3.
 
 ## Forfattere:
-- Daniel Yang Hansen
-- Patryk Kuklinski
-- Erland Lie Amundgård
+* Daniel Yang Hansen
+* Patryk Kuklinski
+* Erland Lie Amundgård
 
 ## Om oppgaven 
 ***Fra oppgavetekst:***\
 Databaseapplikasjonen skal implementeres i Python basert på skjemaet fra første delinnlevering. De fem brukerhistoriene må være tilfredsstilt. Enkleste løsning er å lage et tekstbasert grensesnitt som kjører i et terminalvindu (eksempelvis cmd, bash, o.l.). Husk at poenget med oppgaven er å lage modeller, skrive SQL og gjøre databaseaksess fra Python. Følgende skal leveres:
-- **a)** Python kildekode med SQL pakket i en zip-fil eller lignende. 
-- **b)** Tekstlig beskrivelse som dokumenterer applikasjonen, levert som PDF. Dokumentasjonen må beskrive hvordan hver brukerhistorie er løst. 
-- **c)** Databasefilen til prosjektets SQLite-database. 
-- **d)** De tekstlige resultatene fra brukerhistorienes spørringer.
+
+* **a)** Python kildekode med SQL pakket i en zip-fil eller lignende. 
+* **b)** Tekstlig beskrivelse som dokumenterer applikasjonen, levert som PDF. Dokumentasjonen må beskrive hvordan hver brukerhistorie er løst.
+* **c)** Databasefilen til prosjektets SQLite-database. 
+* **d)** De tekstlige resultatene fra brukerhistorienes spørringer.
 
 Ettersom det er gjort noen små endringer i databasestrukturen siden deloppgave 1, skriver vi litt om dette i:
-- **e)** Notat: Endringer fra forrige innleverin
+
+* **e)** Notat: Endringer fra forrige innlevering
 
 Til slutt har vi en komplett utskrift av selve kjøringen i:
-- **f)** Fullstendig output etter å ha kjørt KaffeDBUserStoryTests.py
+
+* **f)** Fullstendig output etter å ha kjørt KaffeDBUserStoryTests.py
 
 # Svar deloppgave 2:
 ## a) Kildekode
@@ -27,9 +30,10 @@ Se vedlagt .zip-fil
 
 ## b) Hva applikasjonen inneholder
 Applikasjonen inneholder følgende Python-filer:
-- `KaffeDB.py`
-- `KaffeDBTestInit.py`
-- `KaffeDBUserStoryTests.py`
+
+* `KaffeDB.py`
+* `KaffeDBTestInit.py`
+* `KaffeDBUserStoryTests.py`
 
 ### KaffeDB:
 Denne filen inneholder et bruker-objekt som instansieres når en bruker logger inn ved hjelp av en login-metode, og metoder for innsetting av data inn i de ulike tabellene
@@ -79,12 +83,13 @@ def login(epost:str, passwd: str, UserState: User):
        return False 
 ```
 Vi simulerer dermed at brukeren ser listen av alle tilgjengelige kaffer, for så å legge på noen søkekrav:
-- Navn: 'Vinterkaffe 2022'
-- BrenneriNavn: 'Trondheims-brenneriet Jacobsen & Svart'
-- Region: 'Santa Ana'
-- Land: 'El Salvador'
-- Brenningsdato: '2022.01.20'
-- Brenningsgrad: 'Lys'
+
+* Navn: 'Vinterkaffe 2022'
+* BrenneriNavn: 'Trondheims-brenneriet Jacobsen & Svart'
+* Region: 'Santa Ana'
+* Land: 'El Salvador'
+* Brenningsdato: '2022.01.20'
+* Brenningsgrad: 'Lys'
 
 Vi leter da etter kaffen med å spørre:
 ```SQL
@@ -316,75 +321,7 @@ I kaffe-tabellen så vi det som hensiktsmessig å endre på Kilopris-feltet. Fel
 ### f) Fullstendig output etter å ha kjørt KaffeDBUserStoryTests.py
 
 
-```
-Starting user story tests:
-
-
-
-                                  ░░              ░░              ░░                                
-                              ░░              ░░              ░░                                
-                                ░░              ░░              ░░                              
-                                ░░              ░░              ░░                              
-                              ░░              ░░              ░░                                
-                              ░░              ░░              ░░                                
-                            ░░              ░░              ░░                                  
-                            ░░              ░░              ░░                                  
-                              ░░              ░░              ░░                                
-                              ░░              ░░              ░░                                
-                                ░░              ░░              ░░                              
-                                ░░              ░░              ░░                              
-                              ░░              ░░              ░░                                
-                              ░░              ░░              ░░                                
-                                                                                                
-                                    ▓▓██████████████████████                                    
-                            ████████                        ████████                            
-                        ████        ████████████████████████        ████                        
-                      ██░░    ██████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒██▓▓██  ░░░░██                      
-                    ██    ████▒▒▓▓▓▓▓▓▓▓░░░░░░▓▓▓▓░░░░░░▓▓▓▓▒▒▓▓▓▓████    ██                    
-                  ██    ██▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓░░░░▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▒▒▓▓██    ██                  
-                  ██  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▒▒▓▓▓▓  ██  ██▓▓▓▓▓▓██      
-                  ██  ██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒██  ████          ██    
-                  ██    ██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██    ██              ██  
-                    ██  ░░████▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓████░░  ██░░    ████      ██  
-                    ██        ██████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██████        ██  ████    ██    ██  
-                    ██              ████████████████████████              ████        ██    ██  
-                    ██                ░░  ░░░░░░░░░░░░░░░░░░              ██          ██    ██  
-                ██████                                                    ██████    ██      ██  
-            ████    ██                                                    ██    ██  ██    ██    
-        ░░██▒▒░░    ▒▒▓▓                                                ▓▓▒▒    ░░██▒▒    ██    
-      ▓▓  ░░          ██                                                ██  ██████      ▓▓      
-    ██                ██                                                ████        ████  ██    
-  ██                  ░░██                                            ██░░░░    ████░░░░  ░░██  
-  ██                ██████                                            ██████████░░░░        ██  
-██                ██▒▒░░▒▒██                                        ██▒▒▒▒██                  ██
-██              ██▒▒██▒▒▒▒██                                        ██▒▒▒▒▒▒██                ██
-██              ██░░▓▓████▒▒▓▓                                    ▓▓▒▒██░░▒▒██                ██
-  ██            ██▒▒██▓▓░░▒▒▒▒██                                ██▒▒░░▒▒████                ██  
-  ██              ██░░██▒▒████▒▒████                        ████▒▒██▒▒██▒▒██                ██  
-    ██            ██▒▒▒▒██▓▓░░▒▒░░▒▒██▓▓▓▓            ▓▓▓▓██▒▒██▒▒░░██▒▒░░██              ██    
-      ██            ██████▒▒▒▒▒▒██████▒▒▒▒████████████▒▒██▒▒▒▒▓▓██▒▒▒▒████░░            ██      
-        ██                ██████░░▒▒██░░▒▒██▒▒▒▒░░▒▒██▒▒▒▒██░░▒▒▒▒████                ██        
-          ████                ██▒▒▒▒▓▓▒▒▒▒██░░▒▒████▒▒░░▒▒▒▒██████                ████          
-          ░░  ████              ████  ████░░████░░░░████████    ░░            ████              
-                  ████                                                    ████                  
-                      ██▓▓▓▓██                                    ▓▓▓▓▓▓██                      
-                              ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                              
-
-    
-
- __          __  _                            _        
- \ \        / / | |                          | |       
-  \ \  /\  / /__| | ___ ___  _ __ ___   ___  | |_ ___  
-   \ \/  \/ / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \ 
-    \  /\  /  __/ | (_| (_) | | | | | |  __/ | || (_) |
-  _  \/  \/ \___|_|\___\___/|_|_|_| |_|\___|  \__\___/ 
- | |/ /     / _|/ _|   |  __ \|  _ \                   
- | ' / __ _| |_| |_ ___| |  | | |_) |                  
- |  < / _` |  _|  _/ _ \ |  | |  _ <                   
- | . \ (_| | | | ||  __/ |__| | |_) |                  
- |_|\_\__,_|_| |_| \___|_____/|____/                   
-                                                       
-                                                       
+```                                        
     
 =========Showing the contents of all tables:=========
 
